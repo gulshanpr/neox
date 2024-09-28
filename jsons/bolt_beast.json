@@ -1,0 +1,14 @@
+{
+    "name": "bolt_beast",
+    "description": "happy looking hippo with lightning abilities",
+    "image_url": "https://moccasin-main-swallow-934.mypinata.cloud/ipfs/QmUR1W3yXVbcnLKLxXd2g6G7JJpVUSmaZwjk6ztcS3Qvgp",
+    "attributes": {
+      "attack": 3,
+      "health": 2,
+      "cost": 3,
+      "type": "lightning",
+      "ability": null,
+      "ability_power": null,
+      "rarity": "common"
+    }
+  }

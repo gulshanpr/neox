@@ -1,0 +1,14 @@
+{
+    "name": "holy_skunk",
+    "description": "good smelling skung",
+    "image_url": "https://moccasin-main-swallow-934.mypinata.cloud/ipfs/QmNhypsrt49nizE9iEJrjnGnHhfRonqig6YbLvJPKR2tjJ",
+    "attributes": {
+      "attack": 2,
+      "health": 1,
+      "cost": 1,
+      "type": "holy",
+      "ability": null,
+      "ability_power": null,
+      "rarity": "common"
+    }
+  }

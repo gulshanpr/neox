@@ -1,0 +1,14 @@
+{
+    "name": "super_sloth",
+    "description": "strong active sloth",
+    "image_url": "https://moccasin-main-swallow-934.mypinata.cloud/ipfs/QmdTq1EPYzz9ruq3adyUoAyLVJm2knyqEQADgAv9MG7Gtw",
+    "attributes": {
+      "attack": 5,
+      "health": 5,
+      "cost": 6,
+      "type": "wood",
+      "ability": null,
+      "ability_power": null,
+      "rarity": "common"
+    }
+  }
