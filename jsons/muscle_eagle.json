@@ -1,0 +1,14 @@
+{
+    "name": "Muscle_Eagle",
+    "description": "Flying Eagle with muscles",
+    "image_url": "https://moccasin-main-swallow-934.mypinata.cloud/ipfs/QmSX8TNcVjh942VbZDmcLqBqWiBxsGFAkAaMigmhsZDLPE",
+    "attributes": {
+      "attack": 3,
+      "health": 5,
+      "cost": 4,
+      "type": "wind",
+      "ability": null,
+      "ability_power": null,
+      "rarity": "common"
+    }
+  }

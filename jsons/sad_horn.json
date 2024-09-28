@@ -1,0 +1,14 @@
+{
+    "name": "Sad_Horn",
+    "description": "Sad looking ox",
+    "image_url": "https://moccasin-main-swallow-934.mypinata.cloud/ipfs/QmXwA1wtTR8TZTLVJqcL17Goa43YfH4nTvnQtgZP3nWc7R",
+    "attributes": {
+      "attack": 2,
+      "health": 3,
+      "cost": 2,
+      "type": "Earth",
+      "ability": null,
+      "ability_power": null,
+      "rarity": "common"
+    }
+  }

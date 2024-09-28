@@ -1,0 +1,14 @@
+{
+    "name": "liquid_lion",
+    "description": "water controling lion",
+    "image_url": "https://moccasin-main-swallow-934.mypinata.cloud/ipfs/QmQptHM2bho7b4bboKLbwCRWE6Hc5ijBtcDVyEcojq91yU",
+    "attributes": {
+      "attack": 3,
+      "health": 4,
+      "cost": 5,
+      "type": "water",
+      "ability": null,
+      "ability_power": null,
+      "rarity": "common"
+    }
+  }

@@ -1,0 +1,14 @@
+{
+    "name": "dive_demon",
+    "description": "Shark mermen",
+    "image_url": "https://moccasin-main-swallow-934.mypinata.cloud/ipfs/QmVwcB5FwPZwz7ZyMGbHVvrDeDEsUzVGNqE3z1KrVVD4Pi",
+    "attributes": {
+      "attack": 5,
+      "health": 5,
+      "cost": 6,
+      "type": "Water",
+      "ability": null,
+      "ability_power": null,
+      "rarity": "common"
+    }
+  }

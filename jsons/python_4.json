@@ -1,0 +1,14 @@
+{
+    "name": "python_4",
+    "description": "Snake man with fire fists",
+    "image_url": "https://moccasin-main-swallow-934.mypinata.cloud/ipfs/QmctAhsxWMkF9Wm3LnvBg1KdpRBd93Ggfb7jrpiig2GgSW",
+    "attributes": {
+      "attack": 2,
+      "health": 3,
+      "cost": 3,
+      "type": "fire",
+      "ability": null,
+      "ability_power": null,
+      "rarity": "common"
+    }
+  }

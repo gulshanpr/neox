@@ -1,0 +1,14 @@
+{
+    "name": "Cannible",
+    "description": "Rabbit eating Rabbit",
+    "image_url": "https://moccasin-main-swallow-934.mypinata.cloud/ipfs/QmeZpStJEVGTuAtk6oMKk5yihEkqChof4oR5a1ZTJti5Gm",
+    "attributes": {
+      "attack": 5,
+      "health": 2,
+      "cost": 3,
+      "type": "Earth",
+      "ability": null,
+      "ability_power": null,
+      "rarity": "common"
+    }
+  }
