@@ -52,3 +52,5 @@ contract StakeNFT is Ownable {
         return stakers[user].stakedNFTs;
     }
 }
+
+// https://xt4scan.ngd.network/tx/0x71a9fdbca7c3be45b7ad149f510f085d017cba9c3276f72a2d1c4681f67e1741
