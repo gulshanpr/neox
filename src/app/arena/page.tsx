@@ -1,194 +1,202 @@
 "use client";
-import React, { useState } from "react";
-import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
-import { CSS } from "@dnd-kit/utilities";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
+import Confetti from 'react-confetti';
+import Navbar from '@/components/Navbar';
 
-// DraggableCard component
-const DraggableCard = ({ id, title, description, content, footer }) => {
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: id,
-  });
-  const style = transform
-    ? {
-        transform: CSS.Translate.toString(transform),
-        zIndex: 1,
-      }
-    : undefined;
+const createCard = (id, name, attack, health, image) => ({ id, name, attack, health, image });
 
-  return (
-    <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
-      <Card className="mb-4 cursor-move">
-        <CardHeader>
-          <CardTitle>{title}</CardTitle>
-          <CardDescription>{description}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p>{content}</p>
-        </CardContent>
-        <CardFooter>
-          <p>{footer}</p>
-        </CardFooter>
-      </Card>
-    </div>
-  );
-};
+const initialCards = [
+  createCard(1, 'Warrior', 3, 5, '/cards/1.png'),
+  createCard(2, 'Archer', 2, 4, '/cards/2.png'),
+  createCard(3, 'Mage', 4, 3, '/cards/3.png'),
+  createCard(4, 'Knight', 3, 6, '/cards/4.png'),
+];
 
-// DroppableArea component
-const DroppableArea = ({ id, children }) => {
-  const { isOver, setNodeRef } = useDroppable({
-    id: id,
-  });
+const CardGame = () => {
+  const [player1Cards, setPlayer1Cards] = useState(initialCards.map(card => ({ ...card })));
+  const [player2Cards, setPlayer2Cards] = useState(initialCards.map(card => ({ ...card })));
+  const [board, setBoard] = useState({ player1: null, player2: null });
+  const [currentPlayer, setCurrentPlayer] = useState(1);
+  const [gameOver, setGameOver] = useState(false);
+  const [winner, setWinner] = useState(null);
+  const [battleInProgress, setBattleInProgress] = useState(false);
+  const [timer, setTimer] = useState(5);
+  const [showConfetti, setShowConfetti] = useState(false);
 
-  return (
-    <div
-      ref={setNodeRef}
-      className={`p-4 border-2 border-dashed ${
-        isOver ? "border-green-500" : "border-gray-300"
-      } min-h-[200px] w-full flex justify-center items-center`}
-    >
-      {children}
-    </div>
-  );
-};
+  // Use effect to handle confetti display when the game ends
+  useEffect(() => {
+    if (gameOver && winner !== null) {
+      setShowConfetti(true);
+      setTimeout(() => setShowConfetti(false), 5000); // Confetti lasts for 5 seconds
+    }
+  }, [gameOver, winner]);
 
-// Main App component
-function App() {
-  const [cards, setCards] = useState([
-    {
-      id: "card1",
-      title: "Card 1",
-      description: "Description 1",
-      content: "Content 1",
-      footer: "Footer 1",
-    },
-    {
-      id: "card2",
-      title: "Card 2",
-      description: "Description 2",
-      content: "Content 2",
-      footer: "Footer 2",
-    },
-    {
-      id: "card3",
-      title: "Card 3",
-      description: "Description 3",
-      content: "Content 3",
-      footer: "Footer 3",
-    },
-    {
-      id: "card4",
-      title: "Card 4",
-      description: "Description 4",
-      content: "Content 4",
-      footer: "Footer 4",
-    },
-    {
-      id: "card5",
-      title: "Card 5",
-      description: "Description 5",
-      content: "Content 5",
-      footer: "Footer 5",
-    },
-    {
-      id: "card6",
-      title: "Card 6",
-      description: "Description 6",
-      content: "Content 6",
-      footer: "Footer 6",
-    },
-    {
-      id: "card7",
-      title: "Card 7",
-      description: "Description 7",
-      content: "Content 7",
-      footer: "Footer 7",
-    },
-    {
-      id: "card8",
-      title: "Card 8",
-      description: "Description 8",
-      content: "Content 8",
-      footer: "Footer 8",
-    },
-  ]);
+  useEffect(() => {
+    checkGameOver();
+  }, [player1Cards, player2Cards, board]);
 
-  const [droppedCards, setDroppedCards] = useState([]);
+  useEffect(() => {
+    if (board.player1 && board.player2 && !gameOver) {
+      setBattleInProgress(true);
+      setTimer(2);
+      const timerInterval = setInterval(() => {
+        setTimer((prevTimer) => {
+          if (prevTimer > 0) return prevTimer - 1;
+          clearInterval(timerInterval);
+          resolveAttack();
+          return 0;
+        });
+      }, 1000);
 
-  // Handle the end of the drag
-  const handleDragEnd = (event) => {
-    const { active, over } = event;
+      return () => clearInterval(timerInterval);
+    }
+  }, [board.player1, board.player2, gameOver]);
 
-    if (over && over.id === "droppable") {
-      // Find the dropped card from the available cards
-      const droppedCard = cards.find((card) => card.id === active.id);
-      if (droppedCard) {
-        setDroppedCards((prevDropped) => [...prevDropped, droppedCard]); // Add the dropped card to the stack
-        setCards((prevCards) => prevCards.filter((card) => card.id !== active.id)); // Remove the card from the original list
+  const checkGameOver = () => {
+    if (player1Cards.length === 0 && !board.player1 && player2Cards.length === 0 && !board.player2) {
+      setGameOver(true);
+      setWinner(0); // Indicates a tie
+    } else if (player1Cards.length === 0 && !board.player1) {
+      setGameOver(true);
+      setWinner(2); // Player 2 wins
+    } else if (player2Cards.length === 0 && !board.player2) {
+      setGameOver(true);
+      setWinner(1); // Player 1 wins
+    }
+  };
+
+  const playCard = (player, cardIndex) => {
+    if (player !== currentPlayer || gameOver || battleInProgress) return;
+
+    const newBoard = { ...board };
+    const playerCards = player === 1 ? [...player1Cards] : [...player2Cards];
+    const [playedCard] = playerCards.splice(cardIndex, 1);
+    newBoard[`player${player}`] = { ...playedCard };
+
+    if (player === 1) {
+      setPlayer1Cards(playerCards);
+    } else {
+      setPlayer2Cards(playerCards);
+    }
+
+    setBoard(newBoard);
+    setCurrentPlayer(player === 1 ? 2 : 1);
+  };
+
+  const resolveAttack = () => {
+    const newBoard = { ...board };
+
+    if (newBoard.player1 && newBoard.player2) {
+      const player1PreviousHealth = newBoard.player1.health;
+      const player2PreviousHealth = newBoard.player2.health;
+
+      const updateHealth = (playerKey, opponentKey) => {
+        let health = newBoard[playerKey].health;
+        const damageInterval = setInterval(() => {
+          health -= 0.1;
+          setBoard(prevBoard => ({
+            ...prevBoard,
+            [playerKey]: { ...prevBoard[playerKey], health: Math.max(0, health) }
+          }));
+
+          if (health <= 0 || health <= newBoard[playerKey].health - newBoard[opponentKey].attack) {
+            clearInterval(damageInterval);
+            if (health <= 0) {
+              setBoard(prevBoard => ({
+                ...prevBoard,
+                [playerKey]: null
+              }));
+              setCurrentPlayer(playerKey === 'player1' ? 1 : 2);
+              setBattleInProgress(false);
+            } else {
+              setBattleInProgress(false);
+            }
+          }
+        }, 100);
+      };
+
+      updateHealth('player1', 'player2');
+      updateHealth('player2', 'player1');
+
+      if (player1PreviousHealth <= newBoard.player2.attack && player2PreviousHealth <= newBoard.player1.attack) {
+        if (player1Cards.length === 0 && player2Cards.length === 0) {
+          setGameOver(true);
+          setWinner(player1PreviousHealth > player2PreviousHealth ? 1 : 2);
+        }
       }
     }
   };
 
+  const renderCard = (card) => (
+    card && (
+      <Card className="w-32 h-56 m-2">
+        <CardContent className="p-2 flex flex-col items-center">
+          <img src={card.image} alt={card.name} className="w-24 h-24 object-cover mb-2" />
+          <div className="text-sm font-bold">{card.name}</div>
+          <div className="text-xs">ATK: {card.attack}</div>
+          <div className="text-xs">HP: {card.health.toFixed(1)}</div>
+          <Progress value={(card.health / initialCards.find(c => c.name === card.name).health) * 100} className="w-full mt-2" />
+        </CardContent>
+      </Card>
+    )
+  );
+
+  const renderPlayerHand = (player) => {
+    const cards = player === 1 ? player1Cards : player2Cards;
+    return cards.map((card, index) => (
+      <Button 
+        key={card.id} 
+        onClick={() => playCard(player, index)} 
+        disabled={currentPlayer !== player || gameOver || battleInProgress || board[`player${player}`] !== null}
+        className="w-24 h-32 m-1 p-1 flex flex-col items-center justify-center"
+      >
+        <img src={card.image} alt={card.name} className="w-16 h-16 object-cover mb-1" />
+        <div className="text-xs font-bold">{card.name}</div>
+      </Button>
+    ));
+  };
+
   return (
-    <div
-      style={{
-        backgroundImage: "url('/arena-bg.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        height: "100vh",
-        padding: "20px",
-      }}
-    >
-      <DndContext onDragEnd={handleDragEnd}>
-        <div className="flex flex-col h-full justify-between">
-          {/* Top Draggable Cards */}
-          <div className="flex justify-around w-full">
-            {cards.slice(0, 4).map((card) => (
-              <DraggableCard key={card.id} {...card} />
-            ))}
-          </div>
+    <div className="p-4" style={{
+      backgroundImage: "url('/bg.jpg')",
+      backgroundSize: "auto",
+      backgroundPosition: "center",
+      backgroundRepeat: "repeat",
+      height: "100vh",
+      width: "100vw",
+    }}>
+      {showConfetti && <Confetti width={window.innerWidth} height={window.innerHeight} />} {/* Render confetti */}
 
-          {/* Droppable Area in the Center */}
-          <div className="flex justify-center items-center my-10">
-            <DroppableArea id="droppable">
-              {droppedCards.length > 0 ? (
-                droppedCards.map((card, index) => (
-                  <Card key={card.id} className="mb-4">
-                    <CardHeader>
-                      <CardTitle>{card.title}</CardTitle>
-                      <CardDescription>{card.description}</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <p>{card.content}</p>
-                    </CardContent>
-                    <CardFooter>
-                      <p>{card.footer}</p>
-                    </CardFooter>
-                  </Card>
-                ))
-              ) : (
-                <p>Drop a card here</p>
-              )}
-            </DroppableArea>
-          </div>
-
-          {/* Bottom Draggable Cards */}
-          <div className="flex justify-around w-full">
-            {cards.slice(4).map((card) => (
-              <DraggableCard key={card.id} {...card} />
-            ))}
-          </div>
+      <div className="mb-4">
+        <h2 className="text-lg font-bold">Player 2's Hand ({player2Cards.length})</h2>
+        <div className="flex flex-wrap justify-center">{renderPlayerHand(2)}</div>
+      </div>
+      
+      <div className="flex justify-center items-center mb-4">
+        <div>
+          <h3 className="text-center">Player 2</h3>
+          {renderCard(board.player2)}
         </div>
-      </DndContext>
+        {battleInProgress && (
+          <div className="mx-4 text-2xl font-bold">{timer}</div>
+        )}
+        <div>
+          <h3 className="text-center">Player 1</h3>
+          {renderCard(board.player1)}
+        </div>
+      </div>
+      
+      <div className="mb-4">
+        <h2 className="text-lg font-bold">Player 1's Hand ({player1Cards.length})</h2>
+        <div className="flex flex-wrap justify-center">{renderPlayerHand(1)}</div>
+      </div>
+      
+      {gameOver && <div className="text-xl font-bold text-center">Game Over! {winner === 0 ? 'It\'s a tie!' : `Player ${winner} wins!`}</div>}
     </div>
   );
-}
+};
 
-export default App;
+export default CardGame;
