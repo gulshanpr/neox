@@ -1,11 +1,23 @@
-"use client"
-import Image from 'next/image'
-import Link from 'next/link'
-import { useState } from 'react'
-import Navbar from '@/components/Navbar'
+"use client";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+import Navbar from "@/components/Navbar";
+import { ethers } from "ethers";
 
 export default function LandingPage() {
-  const [isHovered, setIsHovered] = useState(false)
+  const [isHovered, setIsHovered] = useState(false);
+
+  async function connectWallet() {
+    <Link
+      href="/arena"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700"
+    >
+      Arena
+    </Link>;
+  }
 
   return (
     <div className="min-h-screen bg-black">
@@ -32,25 +44,30 @@ export default function LandingPage() {
             <br />
             the ultimate Web3 Battle Card Game
           </p>
-          
-          {/* Animated Button */}
-          <button
-            className={`
-              relative overflow-hidden px-8 py-4 bg-purple-600 text-white text-lg font-bold rounded-lg
-              transition-all duration-300 ease-in-out
-              transform hover:scale-105 hover:shadow-lg
-              ${isHovered ? 'animate-pulse' : ''}
-            `}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-          >
-            <span className="relative z-10">Start Battle</span>
-            <span className={`
-              absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500
-              transition-opacity duration-300 ease-in-out
-              ${isHovered ? 'opacity-100' : 'opacity-0'}
-            `}></span>
-          </button>
+
+            <button
+              className={`
+      relative overflow-hidden px-8 py-4 bg-purple-600 text-white text-lg font-bold rounded-lg
+      transition-all duration-300 ease-in-out
+      transform hover:scale-105 hover:shadow-lg
+      ${isHovered ? "animate-pulse" : ""}
+    `}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+              onClick={() => {
+                connectWallet(); 
+                window.open('/arena', '_blank');
+              }}
+            >
+              <span className="relative z-10">Start Battle</span>
+              <span
+                className={`
+      absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500-
+      transition-opacity duration-300 ease-in-out
+      ${isHovered ? "opacity-100" : "opacity-0"}
+    `}
+              ></span>
+            </button>
         </div>
 
         {/* Right side */}
@@ -65,5 +82,5 @@ export default function LandingPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
