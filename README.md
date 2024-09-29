@@ -3,6 +3,9 @@
     <p>
         This is a turn-based NFT card game where two players compete against each other for the ultimate reward—an NFT from the opponent's collection. Each player starts with 4 cards in hand and takes turns placing cards on the table to battle. Cards attack each other to reduce the opponent's card health (HP), and the game continues until one player is unable to play or has no cards left on the board.
     </p>
+    <h2>Project Demo</h2>
+<p>Watch the demo of the NFT Card Battle Game below:</p>
+<a href="https://www.youtube.com/watch?v=iW6Z8_R9ZPM">link</a>
     <h1>Business Model</h1>
 <p>
     The NFT Card Battle Game presents a unique opportunity for NeoX Chain to create a profitable and sustainable business model by leveraging the growing trend of NFT-based gaming. Below are several ways NeoX can capitalize on this project:
