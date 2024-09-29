@@ -5,12 +5,7 @@
     </p>
     <h2>Project Demo</h2>
 <p>Watch the demo of the NFT Card Battle Game below:</p>
-
-<iframe width="560" height="315" 
-src="https://www.youtube.com/watch?v=iW6Z8_R9ZPM" 
-title="NFT Card Battle Game Demo" frameborder="0" 
-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-allowfullscreen></iframe>
+<a href="https://www.youtube.com/watch?v=iW6Z8_R9ZPM">link</a>
     <h1>Business Model</h1>
 <p>
     The NFT Card Battle Game presents a unique opportunity for NeoX Chain to create a profitable and sustainable business model by leveraging the growing trend of NFT-based gaming. Below are several ways NeoX can capitalize on this project:
