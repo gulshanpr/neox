@@ -1,3 +1,4 @@
+"use client"
 import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 
@@ -15,6 +16,38 @@ const cards = [
 ]
 
 export default function Marketplace() {
+    const connectMetaMaskAndSign = async () => {
+        // Check if MetaMask is installed
+        if (typeof window.ethereum !== 'undefined') {
+          console.log('MetaMask is installed!');
+    
+          try {
+            // Request account access if needed
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            const account = accounts[0];
+            console.log('Connected account:', account);
+    
+            // Create a provider using ethers.js
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner();
+    
+            // Create a random message to sign
+            const message = `Signing a random message at: ${new Date().toISOString()}`;
+            console.log('Message to sign:', message);
+    
+            // Sign the message
+            const signature = await signer.signMessage(message);
+            console.log('Signature:', signature);
+    
+            // Notify user about the signature
+            alert('Message signed successfully!');
+          } catch (error) {
+            console.error('User denied account access or error occurred', error);
+          }
+        } else {
+          alert('MetaMask is not installed. Please install it to use this feature.');
+        }
+      };
   return (
     <div className="min-h-screen bg-gray-900">
       <Navbar />
@@ -33,7 +66,7 @@ export default function Marketplace() {
               <div className="p-4">
                 <h2 className="text-xl font-semibold text-white mb-2">{card.name}</h2>
                 <p className="text-gray-400 mb-4">{card.price}</p>
-                <button className="w-full bg-purple-600 text-white font-bold py-2 px-4 rounded hover:bg-purple-700 transition duration-300">
+                <button className="w-full bg-purple-600 text-white font-bold py-2 px-4 rounded hover:bg-purple-700 transition duration-300" onClick={connectMetaMaskAndSign}>
                   Buy Now
                 </button>
               </div>
